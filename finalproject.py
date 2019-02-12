@@ -11,6 +11,8 @@ import httplib2
 import json
 from flask import make_response, flash
 import requests
+import logging
+
 
 app = Flask(__name__)
 
@@ -30,8 +32,11 @@ session = DBSession()
 '''
     SECURE LOGIN BEGIN
 '''
+
+
 # User Helper Functions
 def createUser(login_session):
+    ''' Create a new user and return user id'''
     newUser = User(name=login_session['username'],
                    email=login_session['email'])
     session.add(newUser)
@@ -41,16 +46,19 @@ def createUser(login_session):
 
 
 def getUserInfo(user_id):
+    '''get user info from user id'''
     user = session.query(User).filter_by(id=user_id).one()
     return user
 
 
 def getUserID(email):
+    '''get user Id number from their email address'''
     try:
         user = session.query(User).filter_by(email=email).one()
         return user.id
     except:
         return None
+
 
 # Create anti-forgery state token
 @app.route('/login')
@@ -107,7 +115,7 @@ def gconnect():
     if result['issued_to'] != CLIENT_ID:
         response = make_response(
             json.dumps("Token's client ID does not match app's."), 401)
-        print "Token's client ID does not match app's."
+        logging.warning("Token's client ID does not match app's.")
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -152,7 +160,7 @@ def gconnect():
                     -webkit-border-radius: 150px;
                     -moz-border-radius: 150px;"> '''
     flash("you are now logged in as %s" % login_session['username'])
-    print "done!"
+    logging.info("Login successful!")
     return output
 
 
@@ -161,7 +169,6 @@ def gconnect():
 def gdisconnect():
     # Only disconnect a connected user.
     access_token = login_session.get('access_token')
-    # print("access token is:{}\n".format(access_token))
     if access_token is None:
         response = make_response(
             json.dumps('Current user not connected.'), 401)
@@ -195,18 +202,26 @@ def gdisconnect():
 '''
     JSON ENDPOINT BEGIN
 '''
+
+
 # JSON APIs to view Category Information
 @app.route('/categories/JSON')
 def categoriesJSON():
     categories = session.query(Category).all()
     return jsonify(categories=[r.serialize for r in categories])
 
+
 # JSON APIs to view the Information of itmes under a category
-@app.route('/category/<string:category_name>/items/JSON')
-def categoryMenuJSON(category_name):
+@app.route('/category/<string:category_name>/<string:catalog_name>/JSON')
+def categoryItemJSON(category_name, catalog_name):
     category = session.query(Category).filter_by(name=category_name).one()
-    items = session.query(CatalogItem).filter_by(category_id=category.id).all()
-    return jsonify(CatalogItems=[i.serialize for i in items])
+    item = session.query(CatalogItem).filter_by(
+                         category_id=category.id, title=catalog_name).one()
+    item = item.serialize
+    del item['cat_id']
+    del item['id']
+    return jsonify(ItemInfo=item)
+
 
 # JSON APIs to view all categories Information
 @app.route('/categories/items/JSON')
@@ -230,9 +245,12 @@ def allCategoriesItemsJSON():
 '''
     Category section Begin
 '''
+
+
 @app.route('/')
 @app.route('/categories/')
 def showCategories():
+    ''' display all categories'''
     categories = session.query(Category).order_by(asc(Category.name))
     catalogCategory = session.query(CatalogItem, Category).filter(
         CatalogItem.category_id == Category.id).all()
@@ -248,6 +266,7 @@ def showCategories():
 
 @app.route('/category/new', methods=['GET', 'POST'])
 def newCategory():
+    ''' Add a new category'''
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
@@ -291,8 +310,11 @@ def newCategory():
 '''
     Catalog section Begin
 '''
+
+
 @app.route('/category/<string:category_name>/items')
 def showCatalogItems(category_name):
+    '''Show all items under a category'''
     categories = session.query(Category).order_by(asc(Category.name))
     category = session.query(Category).filter_by(name=category_name).one()
     items = session.query(CatalogItem).filter_by(category_id=category.id).all()
@@ -302,6 +324,7 @@ def showCatalogItems(category_name):
 
 @app.route('/category/<string:category_name>/<string:catalog_name>')
 def showOneCatalogItem(category_name, catalog_name):
+    '''Show detailed information about one catalog item under a category'''
     category = session.query(Category).filter_by(name=category_name).one()
     item = session.query(CatalogItem).filter_by(
                          category_id=category.id, title=catalog_name).one()
@@ -317,6 +340,7 @@ def showOneCatalogItem(category_name, catalog_name):
 
 @app.route('/catalogitems/new', methods=['GET', 'POST'])
 def newCatalogItem():
+    '''Add a new catalog item'''
     if 'username' not in login_session:
         return redirect('/login')
     categories = session.query(Category).all()
@@ -344,6 +368,7 @@ def newCatalogItem():
 @app.route('/category/<string:category_name>/<string:catalog_name>/edit',
            methods=['GET', 'POST'])
 def editCatalogItem(category_name, catalog_name):
+    '''Edit a catalog item'''
     if 'username' not in login_session:
         return redirect('/login')
     categories = session.query(Category).all()
@@ -380,6 +405,7 @@ def editCatalogItem(category_name, catalog_name):
 @app.route('/category/<string:category_name>/<string:catalog_name>/delete',
            methods=['GET', 'POST'])
 def deleteCatalogItem(category_name, catalog_name):
+    '''Delete a new catalog Item'''
     if 'username' not in login_session:
         return redirect('/login')
     category = session.query(Category).filter_by(name=category_name).one()
@@ -407,6 +433,8 @@ def deleteCatalogItem(category_name, catalog_name):
 '''
 
 if __name__ == '__main__':
+    # Set up the logger for debugging
+    logging.basicConfig(filename='catalogApp.log', level=logging.DEBUG)
     app.secret_key = 'super_secret_key'
-    app.debug = True
+    # app.debug = True
     app.run(host='0.0.0.0', port=5000, threaded=False)

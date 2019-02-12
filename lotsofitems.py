@@ -30,13 +30,15 @@ category1 = Category(user_id=1, name="Tennis")
 session.add(category1)
 session.commit()
 
-catalogItem2 = CatalogItem(user_id=1, title="Racket", description="The hitting tool", category=category1)
+catalogItem2 = CatalogItem(user_id=1, title="Racket",
+                           description="The hitting tool", category=category1)
 
 session.add(catalogItem2)
 session.commit()
 
 
-catalogItem1 = CatalogItem(user_id=1, title="Tennis ball", description="The yellow ball",category=category1)
+catalogItem1 = CatalogItem(user_id=1, title="Tennis ball",
+                           description="The yellow ball", category=category1)
 
 session.add(catalogItem1)
 session.commit()
@@ -48,12 +50,20 @@ session.add(cat)
 session.commit()
 
 catalogItem1 = CatalogItem(user_id=1, title="Jersey",
-                           description="Lorem ipsum dolor sit amet",category=cat)
+                           description="Lorem ipsum dolor sit amet",
+                           category=cat)
 session.add(catalogItem1)
 session.commit()
 
 catalogItem1 = CatalogItem(user_id=1, title="Shinguards",
-                           description="consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur",category=cat)
+                           description='''consectetur adipisicing elit,
+                           sed do eiusmod tempor incididunt ut labore et
+                           dolore magna aliqua. Ut enim ad minim veniam, quis
+                           nostrud exercitation ullamco laboris nisi ut
+                           aliquip ex ea commodo consequat. Duis aute irure
+                           dolor in reprehenderit in voluptate velit esse
+                           cillum dolore eu fugiat nulla pariatur''',
+                           category=cat)
 session.add(catalogItem1)
 session.commit()
 
@@ -99,4 +109,3 @@ cat = Category(user_id=1, name="Hockey")
 
 session.add(cat)
 session.commit()
-

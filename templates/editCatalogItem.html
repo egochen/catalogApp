@@ -6,15 +6,19 @@
   <h2>Edit Catalog Item</h2>
 	<form action="#" method = 'post'>
 		<p>Title:</p>
-			<input type ='text' size='30' name='title' placeholder = '{{item.title }}'>
+			<input type ='text' size='30' name='title' placeholder = '{{item.title }}' required>
 		<p>Description:</p>
-			<input type ='text' size='100' name='description' placeholder = '{{item.description}}'>
+			<input type ='text' size='100' name='description' placeholder = '{{item.description}}' required>
 
 		<p>Category:</p>
 		<div class="select-style">
 		  <select name='categorylist'>
 				{% for cat in categories %}
-				<option value="{{cat.name}}">{{cat.name}}</option>
+          {% if cat.name == category_name%}
+            <option value="{{cat.name}}" selected="selected">{{cat.name}}</option>
+          {% else %}
+            <option value="{{cat.name}}">{{cat.name}}</option>
+          {% endif %}
 				{% endfor%}
 		  </select>
 		</div>

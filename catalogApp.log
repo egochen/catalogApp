@@ -1,0 +1,10 @@
+INFO:werkzeug: * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 325-904-188
+INFO:werkzeug:10.0.2.2 - - [12/Feb/2019 19:14:38] "GET /categories/ HTTP/1.1" 200 -
+INFO:werkzeug:10.0.2.2 - - [12/Feb/2019 19:14:40] "GET /favicon.ico HTTP/1.1" 404 -
+INFO:werkzeug:10.0.2.2 - - [12/Feb/2019 19:14:42] "GET /gdisconnect HTTP/1.1" 302 -
+INFO:werkzeug:10.0.2.2 - - [12/Feb/2019 19:14:42] "GET /categories/ HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/vagrant/catalogApp/finalproject.py', reloading
+INFO:werkzeug: * Restarting with stat

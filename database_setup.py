@@ -13,6 +13,7 @@ class User(Base):
     name = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
 
+
 class Category(Base):
     __tablename__ = 'category'
 
@@ -26,7 +27,7 @@ class Category(Base):
         """Return object data in easily serializeable format"""
         return {
             'name': self.name,
-            'id': self.id,            
+            'id': self.id
         }
 
 
