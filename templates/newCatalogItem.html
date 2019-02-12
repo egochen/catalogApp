@@ -1,0 +1,29 @@
+{% extends "main.html" %}
+{% block content %}
+
+<!-- Page content -->
+<div class="main">
+  <h2>Add a new Catalog Item</h2>
+	<form action="#" method = 'post'>
+		<p>Title:</p>
+			<input type ='text' size='30' name='title'>
+		<p>Description:</p>
+			<input type ='text' size='100' name='description'>
+
+		<p>Category:</p>
+		<div class="select-style">
+		  <select name='categorylist'>
+				{% for cat in categories %}
+				<option value="{{cat.name}}">{{cat.name}}</option>
+				{% endfor%}
+		  </select>
+		</div>
+		<br>
+		<input type='submit' value='Submit'>
+		&nbsp; &nbsp;
+    <a href = '/'> Cancel </a>
+	</form>
+
+</div>
+
+{% endblock %}

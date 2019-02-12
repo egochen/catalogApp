@@ -1,0 +1,31 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "publicsidebar.html" %}
+
+<!-- Page content -->
+<div class="main">
+  <h3>Latest Items</h3>
+  <div class = 'flash'>
+  		{% with messages = get_flashed_messages() %}
+        {% if messages %}
+
+          <ul>
+          {% for message in messages %}
+              <li> <strong> {{ message }} </strong> </li>
+          {% endfor %}
+          </ul>
+          {% endif %}
+      {% endwith %}
+
+  </div>
+  
+  {% for item in items %}
+  <a href='{{url_for('showOneCatalogItem', category_name = item[1].name, catalog_name = item[0].title) }}'>
+    <p>{{item[0].title}} ({{item[1].name}})</p>
+  </a>
+  {% endfor %}
+
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+<!-- Side navigation -->
+<!-- <div class="sidenav">
+  <a href="#">About</a>
+  <a href="#">Services</a>
+  <a href="#">Clients</a>
+  <a href="#">Contact</a>
+</div> -->
+
+<div class="sidenav">
+	<h2 class='header'>Categories</h2>	
+	{% for category in categories %}
+	<a href = "{{url_for('showCatalogItems', category_name = category.name)}}">{{category.name}}</a>
+	{% endfor %}
+</div>
