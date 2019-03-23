@@ -2,6 +2,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()
 
@@ -52,8 +53,8 @@ class CatalogItem(Base):
             'id': self.id,
         }
 
+engine = create_engine('sqlite:///catalog.db?check_same_thread=False')
+Base.metadata.bind = engine
 
-engine = create_engine('sqlite:///catalog.db')
-
-
-Base.metadata.create_all(engine)
+DBSession = sessionmaker(bind=engine)
+session = DBSession()

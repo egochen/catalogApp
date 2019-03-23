@@ -18,9 +18,9 @@
       {% endwith %}
 
   </div>
-  
+
   {% for item in items %}
-  <a href='{{url_for('showOneCatalogItem', category_name = category.name, catalog_name = item.title) }}'>
+  <a href='{{url_for('frontend_catalog.showOneCatalogItem', category_name = category.name, catalog_name = item.title) }}'>
     <p>{{item.title}}</p>
   </a>
   {% endfor %}

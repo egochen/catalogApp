@@ -5,9 +5,9 @@
 <div class="main">
   <h2>{{ item.title }}</h2>
   <p>Description: {{item.description}}</p>
-  <a href='{{url_for('editCatalogItem',category_name = category_name, catalog_name=item.title)}}' >Edit</a>
+  <a href='{{url_for('frontend_catalog.editCatalogItem',category_name = category_name, catalog_name=item.title)}}' >Edit</a>
   &nbsp; | &nbsp;
-  <a href='{{url_for('deleteCatalogItem', category_name = category_name, catalog_name=item.title)}}' >Delete</a>
+  <a href='{{url_for('frontend_catalog.deleteCatalogItem', category_name = category_name, catalog_name=item.title)}}' >Delete</a>
 
 </div>
 

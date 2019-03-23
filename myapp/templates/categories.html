@@ -1,10 +1,12 @@
 {% extends "main.html" %}
 {% block content %}
-{% include "publicsidebar.html" %}
+{% include "sidebar.html" %}
 
 <!-- Page content -->
 <div class="main">
+  <a href="{{url_for('frontend_catalog.newCatalogItem')}}" > <h5> Add Item </h5> </a>
   <h3>Latest Items</h3>
+
   <div class = 'flash'>
   		{% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -18,9 +20,10 @@
       {% endwith %}
 
   </div>
-  
+
+
   {% for item in items %}
-  <a href='{{url_for('showOneCatalogItem', category_name = item[1].name, catalog_name = item[0].title) }}'>
+  <a href='{{url_for('frontend_catalog.showOneCatalogItem', category_name = item[1].name, catalog_name = item[0].title) }}'>
     <p>{{item[0].title}} ({{item[1].name}})</p>
   </a>
   {% endfor %}

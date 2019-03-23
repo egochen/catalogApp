@@ -9,9 +9,6 @@
 <div class="sidenav">
 	<h2 class='header'>Categories</h2>
 	{% for category in categories %}
-	<a href = "{{url_for('showCatalogItems', category_name = category.name)}}">{{category.name}}</a>
+	<a href = "{{url_for('frontend_catalog.showCatalogItems', category_name = category.name)}}">{{category.name}}</a>
 	{% endfor %}
-	<p><a href = "{{url_for('newCategory')}}">Add New Category</a></p>
-
-
 </div>

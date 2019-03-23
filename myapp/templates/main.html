@@ -8,9 +8,9 @@
 		<div class="topnav">
 		  <a href="/">Catalog App</a>
 			{%if 'username' not in session %}
-			<a href="{{url_for('showLogin')}}" class="button">Login </a>
+			<a href="{{url_for('frontend_oauth.showLogin')}}" class="button">Login </a>
 			{% else %}
-			<a href="{{url_for('gdisconnect')}}" class="button">Logout </a>
+			<a href="{{url_for('frontend_oauth.gdisconnect')}}" class="button">Logout </a>
 			{% endif %}
 
 		</div>
